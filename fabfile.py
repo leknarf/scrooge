@@ -3,7 +3,7 @@ import os
 import boto
 from fabric.api import local, env
 
-env.BUCKET_NAME = 'leknarf-scrooge'
+env.BUCKET_NAME = 'scrooge.leknarf.net'
 env.SITE_DIR = '.'
 env.DEPLOY_DIR = os.path.join(env.SITE_DIR, 'deploy')
 
