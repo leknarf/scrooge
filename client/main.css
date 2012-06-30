@@ -1,0 +1,25 @@
+* {
+	outline: 0;
+	margin: 0;
+	padding: 0;
+}
+
+label:before {
+	content: attr(data-display);
+	width: 150px;
+	display: inline-block;
+	margin: 50px 0 50px 150px;
+}
+
+label, input[type=text], button[type=submit] {
+	font-size: 48px;
+	width: 800px;
+}
+
+input[type=text] {
+	border-radius: 20px;
+}
+
+input[type=text], button[type=submit] {
+	padding: 15px;
+}
