@@ -91,18 +91,24 @@
 
         <ol>
           <li> The browser loads the blank template
-          <li> An ajax call from the client checks whether s3://results/my_data.json exists
+          <li> A user submits a request for $FOO
+          <li> The client computes hash = sha($FOO)
+          <li> An ajax call from the client checks whether s3://results/hash.json exists
           <ol>
-            <li> If it does not, the client PUTS a blank JSON document to s3://results/my_data_hash.json and a JSON document with the query parameters to s3://requests/my_data_hash.json
-            <li> The client now polls S3 and waits for data to be added to s3://results/my_data_hash.json
+            <li> If it does not, the client creates a gist with the request payload
+            <li> The client now polls S3 and waits for data to be added to s3://results/hash.json
           </ol>
-          <li> The server polls s3://requests/ looking for new requests
-          <li> It PUTS the results to s3://results/my_data.json
-          <li> It DELETES s3://requests/my_data.json
+          <li> The worker:
+            <ol>
+              <li> Gets the collection of gists
+              <li> It computes the response to $FOO and hash = sha($FOO)
+              <li> It uploads the results to s3://results/hash.json
+              <li> Deletes the gist from the request queue
+            </ol>
           <li> The client now retrieves the completed JSON and renders the template, like a semi-dynamic page.
-        </ol>
+          </ol>
 
-    <h3>Worker process
+      <h3>Worker process
     </h3>
 
         Workers are responsible for consuming from the submission queue and populating the cache
