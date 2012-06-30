@@ -7,7 +7,7 @@ module.exports = {
 
 //abstract the following config object; possibly put it in app.js
 
-config: {
+config = {
 	
 }
 
