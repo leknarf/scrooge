@@ -48,4 +48,5 @@ def deploy():
     local('node client/node_modules/browserify/bin/cmd.js client/js/node/sha.js -o client/js/sha.js')
     local('ln -s demo deploy')
     _upload()
+    local('cp -rf client/ demo/client')
     local('rm deploy')
