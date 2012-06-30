@@ -1,0 +1,9 @@
+{
+    "name": "scrooge-client"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "sha1": "0.0.1"
+    , "browserify": "1.13.5"
+  }
+}

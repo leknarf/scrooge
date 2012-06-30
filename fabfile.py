@@ -45,6 +45,7 @@ def _upload():
 
 def deploy():
     clean_bucket()
+    local('node client/node_modules/browserify/bin/cmd.js client/js/node/sha.js -o client/js/sha.js')
     local('ln -s demo deploy')
     _upload()
     local('rm deploy')
