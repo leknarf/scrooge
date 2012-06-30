@@ -1,10 +1,14 @@
 Scrooge is a cache-centric framework for asynchronous web applications.
 
-h2. Project goals
+Project goals
+==============
 
-  - All client requests are served out of Amazon's S3 and can be handled with or without a running backend server.
+  - All client requests can be handled with or without a running backend server.
+  - Content is served out of Amazon's S3
+  - Requests are submitted as Github gists
 
-h2. Architecture
+Architecture
+=============
 
 A web page consists of two components: an HTML template and a optional JSON document.
 
@@ -32,7 +36,8 @@ Fully-dynamic page get interesting:
     3. It DELETES s3://requests/my_data.json
   4. The client now retrieves the completed JSON and renders the template, like a semi-dynamic page.
 
-h2. Worker process
+Worker process
+==============
 
   Workers are responsible for consuming from the submission queue and populating the cache
 
