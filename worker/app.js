@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes');
 
 var app = module.exports = express.createServer();
+var reqHandler = require('./scripts/request_handler.js');
 
 // Configuration
 
@@ -33,4 +34,5 @@ app.get('/', routes.index);
 
 app.listen(3000, function(){
   console.log("Scrooge worker listening on port %d in %s mode", app.address().port, app.settings.env);
+	reqHandler.getQueue();
 });
