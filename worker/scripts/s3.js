@@ -1,4 +1,5 @@
 var reqHandler = require('./request_handler.js');
+var aws = require('aws2js');
 
 module.exports = {
 	post: function(response){
@@ -9,6 +10,10 @@ module.exports = {
 function postResponse(r){
 	
 	var params;//build params from passed in Ordrin response
+	
+	var access_key_id = process.env.AWS_id;
+	var access_key = process.env.AWS_key;
+	
 	var options = {
 		host: reqHandler.config.s3.url,
 		path: '',
