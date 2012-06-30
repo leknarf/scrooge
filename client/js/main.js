@@ -141,5 +141,7 @@ $(document).ready(function(){
 	});
 	
 	$("#zipcode").mask("99999");
-	
 });	
+
+window.onload = function(){console.log(window.sha('test'));}
+
