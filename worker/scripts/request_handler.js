@@ -25,9 +25,7 @@ config = {
 	},
 	s3 : {
 		s3_url : 'scrooge.leknarf.net',
-		s3_folder : 'results',
-		access_key_id : 'AKIAIWZWQG72NWWW7G3Q',
-		access_key : '8RlneaSOIjyiXWgWjf7lWoyTomHofiYSx5LLFcIi'
+		s3_folder : 'results'
 	},
 	ordrn : {
 		access_key: 'LkAHD4QSAAAA6RoMAABJug'
