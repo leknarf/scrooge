@@ -45,4 +45,6 @@ def _upload():
 
 def deploy():
     clean_bucket()
+    local('ln -s demo deploy')
     _upload()
+    local('rm deploy')
