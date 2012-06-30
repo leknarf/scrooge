@@ -33,6 +33,7 @@ $(document).ready(function(){
 		//for github user "scrooge-demo"
 		this.sha1 = 0;//initialize to 0
 		this.response = '';
+		this.s = '';
 		
 		this.payload = p;
 		this.data = {
@@ -46,26 +47,6 @@ $(document).ready(function(){
 		
 	}
 
-	//get list of gists	
-	gist.prototype.list = function(){
-		$.ajax({
-			url: this.github_url+'?access_token='+this.access_token,
-			type: 'GET',
-			success: this.success,
-			error: this.error
-		});
-	};
-	
-	//get a specific gist
-	gist.prototype.get = function(id){
-		$.ajax({
-			url: this.github_url+'/'+id+'?access_token='+this.access_token,
-			type: 'GET',
-			success: this.success,
-			error: this.error
-		});
-	};
-	
 	//create a new gist
 	gist.prototype.post = function(){
 		$.ajax({
@@ -80,28 +61,48 @@ $(document).ready(function(){
 	gist.prototype.success = function(response){
 		console.log(response);
 		this.response = response;
+		$.meow({
+			title: 'A request was submitted',
+			message: 'Please wait as our web felines run around.',
+			icon: 'nyan-cat.gif',
+			sticky: false,
+			closeable: true
+		});
+
+		//make an s3 listener
+		this.s = new s3(this);
+		//start listening
+		this.s.poll();
+
 		return true;
 	};
 
-	gist.prototype.error = function(response){
-		console.log(response);
+	gist.prototype.error = function(jqXHRobj,response,err){
 		this.response = response;
+		$.meow({
+			title: 'The request failed to submit!',
+			message: 'Please wait as we run around like headless chickens.',
+			icon: 'http://t3.gstatic.com/images?q=tbn:ANd9GcTGZlksZT_IR-8hrPIaVoJ284RpCU9NghAJm81XVjTP4KPhwJhQzEn69r4',
+			sticky: false,
+			closeable: true
+		});
+
 		return false;
 	};
 	
 	gist.prototype.getHash = function(){
 		if(this.sha1 == 0){
-			this.sha1 = JSON.stringify(this.payload);
+			this.sha1 = window.sha(JSON.stringify(this.payload));
 		}
 		return this.sha1
 	}
 	
-	function s3(g,c){
+	function s3(g){
 		this.s3_url = "http://scrooge.leknarf.net.s3-website-us-east-1.amazonaws.com/results/";//base url
 		this.gist = g;//gist object
 		this.t = '';//timeout variable
 		this.tInterval = 2000;//milliseconds
-		this.callback = c;//a callback when it finds the json in s3 with response
+		this.table = '';
 	}
 	
 	s3.prototype.poll = function(){
@@ -117,31 +118,34 @@ $(document).ready(function(){
 		console.log('Success!');
 		console.log(response);
 		clearTimeout(this.t);
-		return response;
+		$.meow({
+			title: 'A request was finished.',
+			message: 'Results are now displayed in the accordion below.',
+			icon: 'nyan-cat.gif',
+			sticky: true,
+			closeable: true
+		});
+
+		$("#accordion").append('<h3><a href=\'#\'></a></h3>').append('<div>'+response+'</div>').data('response',JSON.parse(response)).accordion();		
 	};
 
-	s3.prototype.error = function(response){
-		console.log('Error!');//error means file doesn't exist yet
-		console.log(response);
+	s3.prototype.error = function(jqXHRobj,response,err){
+		//error means file doesn't exist yet
 		this.t = setTimeout(this.poll,this.tInterval);
 		return response;
 	};
+
 	
 	$("#clientRequest").submit(function(e){
-		e.preventDefault();//stop form submission
-		var payload = $("#clientRequest").serializeObject()
-		g = new gist(payload);
-		p = g.post();
-		
-		//at this point, it's posted.
-		//initialize an s3 that deals with it
-		s = new s3(g);
-		s.poll();
-		
+		//stop form submission
+		e.preventDefault();
+		//make a gist request
+		g = new gist($("#clientRequest").serializeObject());
+		//create the gist
+		g.post();
 	});
 	
-	$("#zipcode").mask("99999");
+	$("#zip-code").mask("99999");
+	$("#accordion").accordion();
 });	
-
-window.onload = function(){console.log(window.sha('test'));}
 
