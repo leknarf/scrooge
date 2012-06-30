@@ -6,6 +6,7 @@ from fabric.api import local, env
 env.BUCKET_NAME = 'scrooge.leknarf.net'
 env.SITE_DIR = '.'
 env.DEPLOY_DIR = os.path.join(env.SITE_DIR, 'deploy')
+env.RESULTS_DIR = 'results'
 
 # Requires the $AWS_ACCESS_KEY_ID and $AWS_SECRET_ACCESS_KEY environment variables
 s3_conn = boto.connect_s3()
@@ -28,7 +29,8 @@ def clean_bucket(exclude_list=None):
         exclude_list=[k[0] for k in _keys_and_paths()]
 
     for key in bucket.list():
-        if key.key not in exclude_list:
+        # Don't delete files in the results_dir either
+        if key.key not in exclude_list and key.key.find(env.RESULTS_DIR) < 0:
             key.delete()
 
 def _upload():
