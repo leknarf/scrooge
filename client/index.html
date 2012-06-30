@@ -7,21 +7,18 @@
 		<script type="text/javascript" src="js/jquery.maskedinput-1.3.min.js"></script>
 		<script type="text/javascript" src="js/sha.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
-
-		<!-- OFFLINE CODE
+	<!-- OFFLINE CODE
 		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
-		-->
-		<!--= check local storage for unprocessed requests
-		= check amazons3
-		=
-		-->
-
+	-->
 	</head>
 	<body>
-		<label for="payload" data-display="Payload: "></label><input type="text" name="payload" id="payload" placeholder="{'name':'Burger King', 'location': 'New York, NY'}"><br />
-		<button type="submit" id="post">POST</button>
-		<button type="submit" id="put">LIST</button>
+		<form id="clientRequest">
+			<label for="zip-code" data-display="Zip Code: ">
+				<input type="text" name="zip-code" id="zip-code" placeholder="10009">
+			</label>	
+			<button type="submit" id="post">POST</button>
+		</form>
 
 	</body>
 </html>
