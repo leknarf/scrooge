@@ -15,7 +15,7 @@ $(document).ready(function(){
 		
 	function gist(payload){
 		this.data = {
-			'public': false,
+			'public': true,
 			'files': {
 				'request.json': JSON.stringify(payload)
 			}
