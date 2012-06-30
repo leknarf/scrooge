@@ -17,7 +17,9 @@ $(document).ready(function(){
 		this.data = {
 			'public': true,
 			'files': {
-				'request.json': JSON.stringify(payload)
+				'request.json': {
+					'contents': JSON.stringify(payload)
+				}
 			}
 		};
 		
