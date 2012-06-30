@@ -77,7 +77,7 @@
 				}
 				
 				$.ajax({
-					url: this.github_url+'/'+this.sha+'?access_token='+access_token,
+					url: this.github_url+'/'+this.sha+'?access_token='+access_token+'&callback=foo',
 					type: 'GET',
 					data: this.data,
 					success: function(response){
@@ -88,7 +88,7 @@
 			
 			blob.prototype.post = function(){
 				$.ajax({
-					url: this.github_url+'?access_token='+access_token,
+					url: this.github_url+'?access_token='+access_token+'&callback=foo',
 					type: 'POST',
 					data: this.data,
 					success: function(response){
