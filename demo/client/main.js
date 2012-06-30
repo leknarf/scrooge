@@ -21,7 +21,7 @@ $(document).ready(function(){
 			}
 		};
 		
-		this.github_url = 'https://api.github.com/users/scrooge-demo/gists';//data for gists
+		this.github_url = 'https://api.github.com/gists';//data for gists
 	}
 	
 	gist.prototype.list = function(){
