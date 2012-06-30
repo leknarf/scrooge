@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+		
+		<!--= check local storage for unprocessed requests
+		= check amazons3
+		= 
+		-->
+		
+		
+		<script type="text/javascript">
+		function store(key,value){
+			localStorage.setItem('test',JSON.stringify(input));
+			console.log(localStorage.getItem('test'));
+		}
+		</script>
+	</head>
+	<body>
+		<label for="key">Key: </label><input type="text" name="key" id="key" placeholder="name"><br />
+		<label for="value">Value: </label><input type="text" name="value" id="value" placeholder="value">
+	</body>
+</html>
