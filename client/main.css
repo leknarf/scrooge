@@ -4,16 +4,28 @@
 	padding: 0;
 }
 
+body {
+	background: url(scrooge.gif) no-repeat;
+}
+
 label:before {
 	content: attr(data-display);
-	width: 150px;
+	width: 200px;
 	display: inline-block;
-	margin: 50px 0 50px 150px;
+	margin: 50px 0 25px 300px;
 }
 
 label, input[type=text], button[type=submit] {
-	font-size: 48px;
-	width: 800px;
+	font-size: 36px;
+}
+
+label, input[type=text] {
+	width: 1000px;
+}
+
+button[type=submit] {
+	width: 250px;
+	margin-right: 5px;
 }
 
 input[type=text] {
@@ -22,4 +34,8 @@ input[type=text] {
 
 input[type=text], button[type=submit] {
 	padding: 15px;
+}
+
+button:first-of-type {
+	margin: 50px 0 0 400px;
 }

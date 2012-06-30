@@ -13,31 +13,30 @@ $(document).ready(function(){
 	var access_token = "bcd040c99bfc7b878c6f49710558bca51ff24094";
 	//for github user "scrooge-demo"
 		
-	function gist(data){
-		this.data;
-		tempData = {};//initialize empty object for creating data gist
-		tempData[key] = value;
-		this.data = tempData;
-
-		this.github_url = 'https://api.github.com/users/scrooge-demo/gists';//data for gists				
-		this.sha = '';//store the sha we get
+	function gist(payload){
+		this.data = {
+			'public': false,
+			'files': {
+				'request.json': JSON.stringify(payload)
+			}
+		};
+		
+		this.github_url = 'https://api.github.com/users/scrooge-demo/gists';//data for gists
 	}
 	
 	gist.prototype.list = function(){
 		$.ajax({
 			url: this.github_url+'?access_token='+access_token,
 			type: 'GET',
-			
+			success: this.success
+		});
 	}
 	
 	gist.prototype.get = function(id){
-
 		$.ajax({
 			url: this.github_url+'/'+id+'?access_token='+access_token,
 			type: 'GET',
-			success: function(response){
-				console.log(response);
-			}
+			success: this.success
 		});
 	}
 	
@@ -46,9 +45,7 @@ $(document).ready(function(){
 			url: this.github_url+'?access_token='+access_token,
 			type: 'POST',
 			data: this.data,
-			success: function(response){
-				console.log(response);
-			}
+			success: this.success
 		});
 	}
 	
@@ -56,14 +53,33 @@ $(document).ready(function(){
 		$.ajax({
 			url: this.github_url+'/'+id+'?access_token='+access_token,
 			type: 'DELETE',
-			success: function(response){
-				console.log(response);
-			}
+			success: this.success
 		});
 	}
 	
+	gist.prototype.success = function(response){
+		console.log(response);
+	}
+	
 	$("button[type=submit]").click(function(){
-		g = new gist($("#key").val(),$("#value").val());
-		g.post();
+		var payload = $("#payload").val();
+		if(!payload){
+			payload = '{}';
+		}
+		try{
+			payload = JSON.parse(payload);
+		}catch(err){
+			console.log(err);
+			alert('Could not parse your payload properly. See console for error message.');
+			return;
+		}
+		g = new gist({'payload': payload});
+		var action = $(this).text();
+		if(action == 'POST'){
+			g.post();
+		} else if(action == 'LIST'){
+			g.list();
+		}
 	});
+	
 });	
