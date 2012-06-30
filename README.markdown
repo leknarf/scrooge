@@ -32,6 +32,10 @@ Fully-dynamic page get interesting:
     3. It DELETES s3://requests/my_data.json
   4. The client now retrieves the completed JSON and renders the template, like a semi-dynamic page.
 
-h2. Open concerns
+h2. Worker process
 
-Security: how to prevent someone from deleting all your data?
+  Workers are responsible for consuming from the submission queue and populating the cache
+
+  1. Polls github gist for requests
+  2. Processes request (business logic)
+  3. Posts results to s3://data/#####.json
