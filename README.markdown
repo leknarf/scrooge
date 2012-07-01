@@ -1,5 +1,9 @@
 Scrooge is a cache-centric framework for asynchronous web applications.
 
+Project home page: [scrooge.leknarf.net](http://scrooge.leknarf.net)
+
+Scrooge is currently alpha software in an early stage of development.
+
 Project goals
 ==============
 
