@@ -49,46 +49,44 @@ $(document).ready(function(){
 
 	//create a new gist
 	gist.prototype.post = function(){
+		var that = this;
 		$.ajax({
-			url: this.github_url+'?access_token='+this.access_token,
+			url: that.github_url+'?access_token='+that.access_token,
 			type: 'POST',
-			data: JSON.stringify(this.data),
-			success: this.success,
-			error: this.error
-		});
-	};
+			data: JSON.stringify(that.data),
+			success: function(response){
+				console.log(response);
+				that.response = response;
+				$.meow({
+					title: 'A request was submitted',
+					message: 'Please wait as our web felines run around.',
+					icon: 'nyan-cat.gif',
+					sticky: false,
+					closeable: true
+				});
 		
-	gist.prototype.success = function(response){
-		console.log(response);
-		this.response = response;
-		$.meow({
-			title: 'A request was submitted',
-			message: 'Please wait as our web felines run around.',
-			icon: 'nyan-cat.gif',
-			sticky: false,
-			closeable: true
+				//make an s3 listener
+				that.s = new s3(that);
+				//start listening
+				that.s.poll(that.s);
+		
+				return true;
+			},
+			error: function(jqXHRobj,response,err){
+				that.response = response;
+				$.meow({
+					title: 'The request failed to submit!',
+					message: 'Please wait as we run around like headless chickens.',
+					icon: 'http://t3.gstatic.com/images?q=tbn:ANd9GcTGZlksZT_IR-8hrPIaVoJ284RpCU9NghAJm81XVjTP4KPhwJhQzEn69r4',
+					sticky: false,
+					closeable: true
+				});
+		
+				return false;
+			}
 		});
-
-		//make an s3 listener
-		this.s = new s3(this);
-		//start listening
-		this.s.poll();
-
-		return true;
 	};
 
-	gist.prototype.error = function(jqXHRobj,response,err){
-		this.response = response;
-		$.meow({
-			title: 'The request failed to submit!',
-			message: 'Please wait as we run around like headless chickens.',
-			icon: 'http://t3.gstatic.com/images?q=tbn:ANd9GcTGZlksZT_IR-8hrPIaVoJ284RpCU9NghAJm81XVjTP4KPhwJhQzEn69r4',
-			sticky: false,
-			closeable: true
-		});
-
-		return false;
-	};
 	
 	gist.prototype.getHash = function(){
 		if(this.sha1 == 0){
@@ -105,35 +103,32 @@ $(document).ready(function(){
 		this.table = '';
 	}
 	
-	s3.prototype.poll = function(){
+	s3.prototype.poll = function(self){
+		var that = self;
 		$.ajax({
-			url: this.s3_url+g.getHash()+'.json',
+			url: that.s3_url+that.gist.getHash()+'.json',
 			type: 'GET',
-			success: this.success,
-			error: this.error
+			success: function(response){
+				console.log('Success!');
+				console.log(response);
+				clearTimeout(that.t);
+				$.meow({
+					title: 'A request was finished.',
+					message: 'Results are now displayed in the accordion below.',
+					icon: 'nyan-cat.gif',
+					sticky: true,
+					closeable: true
+				});
+		
+				$("#accordion").append('<h3><a href=\'#\'></a></h3>').append('<div>'+response+'</div>').data('response',JSON.parse(response)).accordion();		
+			},
+			error: function(jqXHRobj,response,err){
+				//error means file doesn't exist yet
+				that.t = setTimeout(function(){that.poll(that)},that.tInterval);
+				return response;
+			}
 		});
 	}
-	
-	s3.prototype.success = function(response){
-		console.log('Success!');
-		console.log(response);
-		clearTimeout(this.t);
-		$.meow({
-			title: 'A request was finished.',
-			message: 'Results are now displayed in the accordion below.',
-			icon: 'nyan-cat.gif',
-			sticky: true,
-			closeable: true
-		});
-
-		$("#accordion").append('<h3><a href=\'#\'></a></h3>').append('<div>'+response+'</div>').data('response',JSON.parse(response)).accordion();		
-	};
-
-	s3.prototype.error = function(jqXHRobj,response,err){
-		//error means file doesn't exist yet
-		this.t = setTimeout(this.poll,this.tInterval);
-		return response;
-	};
 
 	
 	$("#clientRequest").submit(function(e){
