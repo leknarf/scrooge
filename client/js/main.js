@@ -98,7 +98,7 @@ $(document).ready(function(){
 	}
 	
 	function s3(g){
-		this.s3_url = "http://scrooge.leknarf.net.s3-website-us-east-1.amazonaws.com/results/";//base url
+		this.s3_url = "http://scrooge.leknarf.net/results/";//base url
 		this.gist = g;//gist object
 		this.t = '';//timeout variable
 		this.tInterval = 2000;//milliseconds
