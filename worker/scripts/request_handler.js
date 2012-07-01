@@ -21,7 +21,8 @@ module.exports = {
 
 config = {
 	git : {
-		user : 'scrooge-demo'
+		user : 'scrooge-demo',
+		token: 'cd056fe085c2210e24cabcd088be7f9b0babd73e'
 	},
 	s3 : {
 		s3_url : 'scrooge.leknarf.net',
@@ -36,7 +37,7 @@ function getQueue() {
 
 	var options = {
 		host : 'api.github.com',
-		path : '/users/' + config.git.user + '/gists',
+		path : '/users/' + config.git.user + '/gists?access_token='+ config.git.token,
 		method : 'GET'
 	}
 
@@ -49,7 +50,7 @@ function getQueue() {
 		response.on('end', function() {
 			//at this point, the handler has the queue;
 			var queue = JSON.parse(queueString);
-			console.log(queue); 
+			handleQueue(queue);
 		});
 	});
 
@@ -61,8 +62,35 @@ function getQueue() {
 }
 
 function handleQueue(queue){
-	//loops over
-	//takes parameters from queue object
+	queue.forEach(function(val, i, arr){
+		getGist(val);
+	});
+}
+
+function getGist(gistObj){
+	
+	var options = {
+		host : 'api.github.com',
+		path : '/gists/' + gistObj.id +'?access_token='+ config.git.token,
+		method : 'GET'
+	}
+	
+	gistRequest = https.request(options, function(response){
+		
+		var content = "";
+	
+		response.on('data', function(chunk) {
+			content += chunk;
+		});
+		
+		response.on('end', function() {
+			var gist = JSON.parse(content);
+			console.log("new request: " + gist["files"]["request.json"].content);
+			ordrin.newRequest(gist["files"]["request.json"].content);
+		});
+	});
+	
+	gistRequest.end();
 }
 
 

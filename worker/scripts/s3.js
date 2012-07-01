@@ -1,41 +1,26 @@
 var reqHandler = require('./request_handler.js');
 var aws = require('aws2js');
+var sha = require('sha1');
 
 module.exports = {
-	post: function(response){
-		postResponse(r);
+	post: function(reque, resp){
+		postResponse(reque, resp);
 	}
 }
 
-function postResponse(r){
-	
-	var params;//build params from passed in Ordrin response
+function postResponse(request, response){
+	//console.log(r);
+	request_hash = sha(request);
 	
 	var access_key_id = process.env.AWS_id;
 	var access_key = process.env.AWS_key;
 	
-	var options = {
-		host: reqHandler.config.s3.url,
-		path: '',
-		method: 'POST'
-	}
-	
-	var req = https.request(options, function(result){
-		var responseString = "";
-		response.on('data', function(chunk) {
-			responseString += chunk;
-		});
-
-		response.on('end', function() {
-			//s3's response
-			var responseObj = JSON.parse(responseString);
-		});
-		
+	var s3 = aws.load('s3', access_key_id, access_key);
+	s3.setBucket('scrooge.leknarf.net');
+	s3.putBuffer('results/' + request_hash +'.json', new Buffer(response, 'utf8'), 'public-read', {'content-type': 'text/javascript'}, function (error, result) {
+		if (error) console.log(error)
 	});
 	
-	req.end();
+	return true;
 
-	req.on('error', function(e) {
-		console.error(e);
-	});
 }
