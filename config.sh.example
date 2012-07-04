@@ -1,0 +1,4 @@
+# Fill in the configuration settings below and then `source config.sh`
+export AWS_BUCKET_NAME=
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=

@@ -1,0 +1,18 @@
+{
+    "name": "scrooge"
+  , "version": "0.0.1"
+  , "dependencies": {
+      "async": "0.1.22"
+    , "aws2js": "0.6.19"
+    , "express": "2.5.8"
+    , "walkdir": "0.0.4"
+    , "jade": "0.26.3"
+    , "sha1": "0.0.1"
+    , "mime": "1.2.6"
+  }
+  , "author" : {
+      "name": "Andrew Frankel"
+    , "email": "andrew@leknarf.net"
+    , "url": "http://leknarf.net"
+  }
+}

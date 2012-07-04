@@ -2,3 +2,5 @@ aws_keys.sh
 *.pyc
 demo/client
 demo/client/*
+node_modules
+tmp/*
