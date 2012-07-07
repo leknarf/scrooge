@@ -1,6 +1,2 @@
-aws_keys.sh
-*.pyc
-demo/client
-demo/client/*
+config.sh
 node_modules
-tmp/*

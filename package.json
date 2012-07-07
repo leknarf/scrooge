@@ -2,17 +2,23 @@
     "name": "scrooge"
   , "version": "0.0.1"
   , "dependencies": {
-      "async": "0.1.22"
-    , "aws2js": "0.6.19"
+      "aws2js": "0.6.19"
     , "express": "2.5.8"
     , "walkdir": "0.0.4"
     , "jade": "0.26.3"
     , "sha1": "0.0.1"
     , "mime": "1.2.6"
+    , "browserify": "1.13.5"
+    , "domready": "0.2.11"
+    , "wintersmith": "https://github.com/leknarf/wintersmith/tarball/master"
   }
-  , "author" : {
+  , "author": {
       "name": "Andrew Frankel"
     , "email": "andrew@leknarf.net"
     , "url": "http://leknarf.net"
   }
+  , "contributors": [
+      {"name": "Marq Jefferson"}
+    , {"name": "Giordon Stark"}
+  ]
 }
