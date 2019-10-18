@@ -8,7 +8,7 @@
     , "walkdir": "0.0.4"
     , "jade": "0.26.3"
     , "sha1": "0.0.1"
-    , "mime": "1.2.6"
+    , "mime": "2.4.4"
   }
   , "author" : {
       "name": "Andrew Frankel"
